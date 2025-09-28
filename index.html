@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>English Tutor Bot</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Pamela English Tutor</h1>
+      <p>Учитесь английскому вместе с Памелой!</p>
+    </header>
+    
+    <main>
+      <button id="level">Уровень языка</button>
+      <button id="speed">Скорость речи</button>
+      <button id="voice">Озвучка бота</button>
+      <button id="stats">Статистика</button>
+      <button id="premium">Премиум</button>
+      <button id="help">Поддержка</button>
+    </main>
+    
+    <footer>
+      <small>&copy; 2025 Pamela English Tutor Bot</small>
+    </footer>
+  </div>
+
+  <script>
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
+    function send(cmd) {
+      tg.sendData(JSON.stringify({ command: cmd }));
+    }
+
+    document.getElementById('vocab').onclick    = () => send('vocab');
+    document.getElementById('grammar').onclick  = () => send('grammar');
+    document.getElementById('quiz').onclick     = () => send('quiz');
+    document.getElementById('lessons').onclick = () => send('lessons');
+    document.getElementById('progress').onclick= () => send('progress');
+    document.getElementById('settings').onclick= () => send('settings');
+    document.getElementById('help').onclick     = () => send('help');
+    document.getElementById('about').onclick    = () => send('about');
+  </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+/* style.css */
+:root {
+  --main-color: #8BC34A;
+  --dark-color: #689F38;
+  --light-color: #F1F8E9;
+  --text-color: #333;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
+}
+
+body {
+  background-color: var(--light-color);
+  color: var(--text-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 10px;
+}
+
+.container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  width: 100%;
+  max-width: 420px;
+  padding: 20px;
+  text-align: center;
+}
+
+header h1 {
+  color: var(--main-color);
+  margin-bottom: 8px;
+}
+
+header p {
+  color: var(--dark-color);
+  margin-bottom: 20px;
+}
+
+main {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 12px;
+}
+
+button {
+  background-color: var(--main-color);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 14px 0;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: var(--dark-color);
+}
+
+footer {
+  margin-top: 20px;
+}
+
+footer small {
+  color: var(--dark-color);
+}
+
+/* Адаптация под узкие экраны */
+@media (max-width: 360px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+}
