@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>English Tutor Bot</title>
+  <title>Pamela English Tutor</title>
   <link rel="stylesheet" href="style.css">
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
@@ -15,12 +15,7 @@
     </header>
     
     <main>
-      <button id="level">Уровень языка</button>
-      <button id="speed">Скорость речи</button>
-      <button id="voice">Озвучка бота</button>
-      <button id="stats">Статистика</button>
-      <button id="premium">Премиум</button>
-      <button id="help">Поддержка</button>
+      <button id="premium">💎 Премиум</button>
     </main>
     
     <footer>
@@ -31,19 +26,11 @@
   <script>
     const tg = window.Telegram.WebApp;
     tg.ready();
+    tg.MainButton.hide();
 
-    function send(cmd) {
-      tg.sendData(JSON.stringify({ command: cmd }));
-    }
-
-    document.getElementById('vocab').onclick    = () => send('vocab');
-    document.getElementById('grammar').onclick  = () => send('grammar');
-    document.getElementById('quiz').onclick     = () => send('quiz');
-    document.getElementById('lessons').onclick = () => send('lessons');
-    document.getElementById('progress').onclick= () => send('progress');
-    document.getElementById('settings').onclick= () => send('settings');
-    document.getElementById('help').onclick     = () => send('help');
-    document.getElementById('about').onclick    = () => send('about');
+    document.getElementById('premium').onclick = () => {
+      tg.sendData(JSON.stringify({ command: 'premium' }));
+    };
   </script>
 </body>
 </html>
