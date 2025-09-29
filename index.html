@@ -1,94 +1,100 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Mini App</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Помощник</title>
+    <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-      html, body {
-        margin: 0; padding: 0;
-        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-        background: var(--tg-theme-bg-color, #111);
-        color: var(--tg-theme-text-color, #fff);
-        height: 100%;
-      }
-      .wrap { display: flex; align-items: center; justify-content: center; height: 100%; padding: 24px; }
-      button {
-        font-size: 18px; padding: 14px 18px; border-radius: 12px; border: none;
-        background: var(--tg-theme-button-color, #2ea6ff);
-        color: var(--tg-theme-button-text-color, #fff); cursor: pointer;
-      }
-      button:active { transform: translateY(1px); }
-      pre { white-space: pre-wrap; font-size: 12px; opacity: .8; }
-    </style>
-  </head>
-  <body>
-    <div class="wrap">
-      <div>
-        <button id="btn-premium">💎 Премиум</button>
-        <pre id="log"></pre>
-      </div>
+</head>
+<body>
+    <div class="container">
+        <div class="avatar">
+            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM4QkMzNEEiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDNjMS42NiAwIDMgMS4zNCAzIDNzLTEuMzQgMy0zIDMtMy0xLjM0LTMtMyAxLjM0LTMgMy0zem0wIDEyLjJjLTIuNSAwLTQuNzEtMS4yOC02LTMuMjIuMDMtMS45OSA0LTMuMDggNi0zLjA4czUuOTcgMS4wOSA2IDMuMDhjLTEuMjkgMS45NC0zLjUgMy4yMi02IDMuMjJ6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+" alt="Bot Avatar" />
+        </div>
+
+        <header>
+            <h1>AI Помощник</h1>
+            <p>Персональный голосовой ассистент</p>
+        </header>
+
+        <main>
+            <button id="stats-btn" class="btn primary">
+                <div class="btn-content">
+                    <div class="btn-icon">📊</div>
+                    <div class="btn-text">
+                        <span class="btn-title">Моя статистика</span>
+                        <span class="btn-subtitle">Просмотр использования</span>
+                    </div>
+                </div>
+            </button>
+
+            <button id="speed-btn" class="btn">
+                <div class="btn-content">
+                    <div class="btn-icon">⚡</div>
+                    <div class="btn-text">
+                        <span class="btn-title">Скорость речи</span>
+                        <span class="btn-subtitle">Настройка темпа</span>
+                    </div>
+                </div>
+            </button>
+
+            <button id="voice-btn" class="btn">
+                <div class="btn-content">
+                    <div class="btn-icon">🎙️</div>
+                    <div class="btn-text">
+                        <span class="btn-title">Выбор голоса</span>
+                        <span class="btn-subtitle">Изменить озвучку</span>
+                    </div>
+                </div>
+            </button>
+
+            <button id="premium-btn" class="btn premium">
+                <div class="btn-content">
+                    <div class="btn-icon">⭐</div>
+                    <div class="btn-text">
+                        <span class="btn-title">Премиум</span>
+                        <span class="btn-subtitle">Больше возможностей</span>
+                    </div>
+                    <div class="premium-badge">PRO</div>
+                </div>
+            </button>
+
+            <button id="help-btn" class="btn">
+                <div class="btn-content">
+                    <div class="btn-icon">💬</div>
+                    <div class="btn-text">
+                        <span class="btn-title">Поддержка</span>
+                        <span class="btn-subtitle">Обратная связь</span>
+                    </div>
+                </div>
+            </button>
+        </main>
     </div>
 
     <script>
-      const tg = window.Telegram.WebApp;
-      tg.ready();
-      tg.expand?.();
+        const tg = window.Telegram.WebApp;
 
-      const ENDPOINT = "https://pamelaenglishbot.ru/webapp"; // ваш HTTPS эндпоинт
-
-      const logEl = document.getElementById('log');
-      const log = (...args) => {
-        console.log('[MiniApp]', ...args);
-        logEl.textContent += args.map(a => {
-          try { return typeof a === 'string' ? a : JSON.stringify(a); }
-          catch { return String(a); }
-        }).join(' ') + '\n';
-      };
-
-      window.addEventListener('error', e => log('window.onerror', e.message || e));
-      window.addEventListener('unhandledrejection', e => log('unhandledrejection', e.reason || e));
-
-      async function sendPremium() {
-        log('click');
-        try {
-          const queryId = tg?.initDataUnsafe?.query_id;
-          log('queryId:', queryId);
-
-          if (!queryId) {
-            tg.showAlert?.('query_id недоступен. Откройте Mini App из меню вложений/меню чата.');
-            return;
-          }
-
-          const payload = { query_id: queryId, command: 'premium' };
-          log('fetch →', ENDPOINT, payload);
-
-          const resp = await fetch(ENDPOINT, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload),
-          });
-
-          log('resp.status', resp.status);
-          let data = null;
-          try { data = await resp.json(); } catch { data = null; }
-          log('resp.json', data);
-
-          if (!resp.ok || (data && data.ok === false)) {
-            const err = (data && data.error) || `HTTP ${resp.status}`;
-            tg.showAlert?.('Ошибка сервера: ' + err);
-            return;
-          }
-
-          tg.close?.();
-        } catch (e) {
-          log('fetch error', e);
-          tg.showAlert?.('Ошибка: ' + (e?.message || e));
+        function sendCommand(command) {
+            tg.sendData(command);
+            tg.close();
         }
-      }
 
-      document.getElementById('btn-premium').addEventListener('click', sendPremium);
+        // Инициализация кнопок без лишних логов
+        document.getElementById('stats-btn').addEventListener('click', () => sendCommand('stats'));
+        document.getElementById('speed-btn').addEventListener('click', () => sendCommand('speed'));
+        document.getElementById('voice-btn').addEventListener('click', () => sendCommand('voice'));
+        document.getElementById('premium-btn').addEventListener('click', () => sendCommand('premium'));
+        document.getElementById('help-btn').addEventListener('click', () => sendCommand('help'));
+
+        // Настройка Telegram WebApp
+        tg.ready();
+        tg.expand();
+
+        // Применение темы Telegram
+        if (tg.colorScheme === 'dark') {
+            document.body.classList.add('dark-theme');
+        }
     </script>
-  </body>
+</body>
 </html>
