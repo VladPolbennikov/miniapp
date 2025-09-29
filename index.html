@@ -1,47 +1,87 @@
-<!DOCTYPE html>
+<!-- index.html -->
+<!doctype html>
 <html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Pamela English Tutor</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <h1>Pamela English Tutor</h1>
-      <p>Учитесь английскому вместе с Памелой!</p>
-    </header>
-    
-    <main>
-      <button id="premium">💎 Премиум</button>
-    </main>
-    
-    <footer>
-      <small>&copy; 2025 Pamela English Tutor Bot</small>
-    </footer>
-  </div>
-
-  <script>
-    const tg = window.Telegram.WebApp;
-    tg.ready();
-    tg.MainButton.hide();
-
-    document.getElementById('premium').onclick = () => {
-      // Получаем query_id из initData
-      const queryId = tg.initDataUnsafe.query_id;
-      
-      if (queryId) {
-        // Отправляем через sendData с query_id
-        tg.sendData(JSON.stringify({ 
-          command: 'premium',
-          query_id: queryId 
-        }));
-      } else {
-        tg.showAlert('Ошибка: query_id недоступен');
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Mini App</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: var(--tg-theme-bg-color, #111);
+        color: var(--tg-theme-text-color, #fff);
+        height: 100%;
       }
-    };
-  </script>
-</body>
+      .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        padding: 24px;
+      }
+      button {
+        font-size: 18px;
+        padding: 14px 18px;
+        border-radius: 12px;
+        border: none;
+        background: var(--tg-theme-button-color, #2ea6ff);
+        color: var(--tg-theme-button-text-color, #fff);
+        cursor: pointer;
+      }
+      button:active { transform: translateY(1px); }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <button id="btn-premium">💎 Премиум</button>
+    </div>
+
+    <script>
+      const tg = window.Telegram.WebApp;
+      tg.ready();
+
+      // УКАЖИТЕ публичный URL вашего бота (где запущен aiohttp)
+      // Например: https://bot.example.com/webapp
+      const ENDPOINT = "https://YOUR_BOT_HOST/webapp";
+
+      async function sendPremium() {
+        try {
+          const queryId = tg?.initDataUnsafe?.query_id;
+          if (!queryId) {
+            alert("query_id недоступен (Mini App должен быть запущен из меню/вложений).");
+            return;
+          }
+
+          const resp = await fetch(ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query_id: queryId, command: "premium" }),
+          });
+
+          const data = await resp.json();
+          if (!data.ok) {
+            console.error("Server error:", data);
+            alert("Ошибка сервера: " + (data.error || "unknown"));
+            return;
+          }
+
+          // Закрываем Mini App после успешной публикации
+          tg.close();
+        } catch (e) {
+          console.error(e);
+          alert("Ошибка: " + e.message);
+        }
+      }
+
+      document
+        .getElementById("btn-premium")
+        .addEventListener("click", sendPremium);
+    </script>
+  </body>
 </html>
