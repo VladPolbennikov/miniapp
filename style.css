@@ -1,74 +1,104 @@
-/* style.css */
+/* style.css - Telegram Mini App Design */
+
 :root {
-  --main-color: #8BC34A;
-  --dark-color: #689F38;
-  --light-color: #F1F8E9;
-  --text-color: #333;
+    --tg-bg-color: #ffffff;
+    --tg-text-color: #000000;
+    --tg-hint-color: #999999;
+    --tg-button-color: #40a7e3;
+    --tg-button-text-color: #ffffff;
+
+    --primary-color: #8BC34A;
+    --primary-dark: #689F38;
+    --premium-color: #FFD700;
+    --premium-dark: #FFA000;
+    --danger-color: #FF5722;
+    --surface-color: #f8f9fa;
+    --border-color: #e9ecef;
+    --text-secondary: #6c757d;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --shadow-hover: rgba(0, 0, 0, 0.15);
 }
 
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
 }
 
 body {
-  background-color: var(--light-color);
-  color: var(--text-color);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  padding: 10px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+    background-color: var(--tg-bg-color);
+    color: var(--tg-text-color);
+    line-height: 1.4;
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+.dark-theme {
+    --tg-bg-color: #17212b;
+    --tg-text-color: #ffffff;
+    --surface-color: #242f3d;
+    --border-color: #384457;
+    --text-secondary: #8391a3;
+    --shadow: rgba(0, 0, 0, 0.3);
 }
 
 .container {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 360px;
-  padding: 20px;
-  text-align: center;
+    max-width: 100%;
+    padding: 20px 16px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.avatar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
+    z-index: 10;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+header {
+    text-align: center;
+    margin: 60px 0 40px;
 }
 
 header h1 {
-  color: var(--main-color);
-  font-size: 24px;
-  margin-bottom: 8px;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
 }
 
 header p {
-  color: var(--dark-color);
-  margin-bottom: 20px;
+    font-size: 16px;
+    color: var(--text-secondary);
+    font-weight: 400;
 }
 
 main {
-  display: flex;
-  justify-content: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 20px;
 }
 
-button {
-  background-color: var(--main-color);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  cursor: pointer;
-  font-size: 18px;
-  padding: 14px 24px;
-  transition: background-color 0.2s;
-}
-
-button:hover {
-  background-color: var(--dark-color);
-}
-
-footer {
-  margin-top: 20px;
-}
-
-footer small {
-  color: var(--dark-color);
-  font-size: 12px;
-}
+.btn {
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.2
