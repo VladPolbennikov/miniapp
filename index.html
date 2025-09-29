@@ -2,86 +2,93 @@
 <html lang="ru">
   <head>
     <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Mini App</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
       html, body {
-        margin: 0;
-        padding: 0;
+        margin: 0; padding: 0;
         font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
         background: var(--tg-theme-bg-color, #111);
         color: var(--tg-theme-text-color, #fff);
         height: 100%;
       }
-      .wrap {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-        padding: 24px;
-      }
+      .wrap { display: flex; align-items: center; justify-content: center; height: 100%; padding: 24px; }
       button {
-        font-size: 18px;
-        padding: 14px 18px;
-        border-radius: 12px;
-        border: none;
+        font-size: 18px; padding: 14px 18px; border-radius: 12px; border: none;
         background: var(--tg-theme-button-color, #2ea6ff);
-        color: var(--tg-theme-button-text-color, #fff);
-        cursor: pointer;
+        color: var(--tg-theme-button-text-color, #fff); cursor: pointer;
       }
       button:active { transform: translateY(1px); }
+      pre { white-space: pre-wrap; font-size: 12px; opacity: .8; }
     </style>
   </head>
   <body>
     <div class="wrap">
-      <button id="btn-premium">💎 Премиум</button>
+      <div>
+        <button id="btn-premium">💎 Премиум</button>
+        <pre id="log"></pre>
+      </div>
     </div>
 
     <script>
       const tg = window.Telegram.WebApp;
       tg.ready();
+      tg.expand?.();
 
-      // HTTP эндпоинт вашего бота
-      const ENDPOINT = "http://194.87.208.6:8080/webapp";
-      // Важно: если Mini App загружен по HTTPS (например, GitHub Pages),
-      // браузер может блокировать запросы к HTTP (mixed content).
-      // Решение — проксировать на HTTPS или хостить Mini App по HTTP вместе с бэкендом.
+      const ENDPOINT = "http://194.87.208.6:8080/webapp"; // ваш HTTP эндпоинт
+
+      const logEl = document.getElementById('log');
+      const log = (...args) => {
+        console.log('[MiniApp]', ...args);
+        logEl.textContent += args.map(a => {
+          try { return typeof a === 'string' ? a : JSON.stringify(a); }
+          catch { return String(a); }
+        }).join(' ') + '\n';
+      };
+
+      window.addEventListener('error', e => log('window.onerror', e.message || e));
+      window.addEventListener('unhandledrejection', e => log('unhandledrejection', e.reason || e));
 
       async function sendPremium() {
+        log('click');
         try {
           const queryId = tg?.initDataUnsafe?.query_id;
+          log('queryId:', queryId);
+
           if (!queryId) {
-            // alert("query_id недоступен (Mini App должен быть запущен из меню/вложений).");
+            tg.showAlert?.('query_id недоступен. Откройте Mini App из меню вложений/меню чата.');
             return;
           }
+
+          const payload = { query_id: queryId, command: 'premium' };
+          log('fetch →', ENDPOINT, payload);
 
           const resp = await fetch(ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ query_id: queryId, command: "premium" }),
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
           });
 
-          const data = await resp.json();
-          if (!data.ok) {
-            console.error("Server error:", data);
-            // alert("Ошибка сервера: " + (data.error || "unknown"));
+          log('resp.status', resp.status);
+          let data = null;
+          try { data = await resp.json(); } catch { data = null; }
+          log('resp.json', data);
+
+          if (!resp.ok || (data && data.ok === false)) {
+            const err = (data && data.error) || `HTTP ${resp.status}`;
+            tg.showAlert?.('Ошибка сервера: ' + err);
             return;
           }
 
-          tg.close();
+          tg.close?.();
         } catch (e) {
-          console.error(e);
-          // alert("Ошибка: " + e.message);
+          log('fetch error', e);
+          tg.showAlert?.('Ошибка: ' + (e?.message || e));
         }
       }
 
-      document
-        .getElementById("btn-premium")
-        .addEventListener("click", sendPremium);
+      document.getElementById('btn-premium').addEventListener('click', sendPremium);
     </script>
   </body>
 </html>
