@@ -29,7 +29,18 @@
     tg.MainButton.hide();
 
     document.getElementById('premium').onclick = () => {
-      tg.sendData(JSON.stringify({ command: 'premium' }));
+      // Получаем query_id из initData
+      const queryId = tg.initDataUnsafe.query_id;
+      
+      if (queryId) {
+        // Отправляем через sendData с query_id
+        tg.sendData(JSON.stringify({ 
+          command: 'premium',
+          query_id: queryId 
+        }));
+      } else {
+        tg.showAlert('Ошибка: query_id недоступен');
+      }
     };
   </script>
 </body>
