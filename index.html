@@ -1,13 +1,16 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
     <title>AI Помощник</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-</head>
-<body>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
     <div class="container">
         <div class="avatar">
             <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM4QkMzNEEiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDNjMS42NiAwIDMgMS4zNCAzIDNzLTEuMzQgMy0zIDMtMy0xLjM0LTMtMyAxLjM0LTMgMy0zem0wIDEyLjJjLTIuNSAwLTQuNzEtMS4yOC02LTMuMjIuMDMtMS45OSA0LTMuMDggNi0zLjA4czUuOTcgMS4wOSA2IDMuMDhjLTEuMjkgMS45NC0zLjUgMy4yMi02IDMuMjJ6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+" alt="Bot Avatar" />
@@ -73,28 +76,45 @@
     </div>
 
     <script>
-        const tg = window.Telegram.WebApp;
+      const tg = window.Telegram.WebApp;
+      tg.ready();
 
-        function sendCommand(command) {
-            tg.sendData(command);
-            tg.close();
+      // HTTP эндпоинт вашего бота (как в оригинале)
+      const ENDPOINT = "https://pamelaenglishbot.ru/webapp";
+
+      // Универсальная функция отправки команд (основана на оригинальной sendPremium)
+      async function sendCommand(command) {
+        try {
+          const queryId = tg?.initDataUnsafe?.query_id;
+          if (!queryId) {
+            console.log("query_id недоступен (Mini App должен быть запущен из меню/вложений).");
+            return;
+          }
+
+          const resp = await fetch(ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ query_id: queryId, command: command }),
+          });
+
+          const data = await resp.json();
+          if (!data.ok) {
+            console.error("Server error:", data);
+            return;
+          }
+
+          tg.close();
+        } catch (e) {
+          console.error(e);
         }
+      }
 
-        // Инициализация кнопок без лишних логов
-        document.getElementById('stats-btn').addEventListener('click', () => sendCommand('stats'));
-        document.getElementById('speed-btn').addEventListener('click', () => sendCommand('speed'));
-        document.getElementById('voice-btn').addEventListener('click', () => sendCommand('voice'));
-        document.getElementById('premium-btn').addEventListener('click', () => sendCommand('premium'));
-        document.getElementById('help-btn').addEventListener('click', () => sendCommand('help'));
-
-        // Настройка Telegram WebApp
-        tg.ready();
-        tg.expand();
-
-        // Применение темы Telegram
-        if (tg.colorScheme === 'dark') {
-            document.body.classList.add('dark-theme');
-        }
+      // Добавляем обработчики для всех кнопок
+      document.getElementById("stats-btn").addEventListener("click", () => sendCommand("stats"));
+      document.getElementById("speed-btn").addEventListener("click", () => sendCommand("speed"));
+      document.getElementById("voice-btn").addEventListener("click", () => sendCommand("voice"));
+      document.getElementById("premium-btn").addEventListener("click", () => sendCommand("premium"));
+      document.getElementById("help-btn").addEventListener("click", () => sendCommand("help"));
     </script>
-</body>
+  </body>
 </html>
