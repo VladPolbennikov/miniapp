@@ -1,104 +1,204 @@
-/* style.css - Telegram Mini App Design */
-
+/* ---- Theme ---- */
 :root {
-    --tg-bg-color: #ffffff;
-    --tg-text-color: #000000;
-    --tg-hint-color: #999999;
-    --tg-button-color: #40a7e3;
-    --tg-button-text-color: #ffffff;
+  --tg-bg-color: #ffffff;
+  --tg-text-color: #0f172a;
+  --surface-color: #f8f9fa;
+  --border-color: #e9ecef;
+  --text-secondary: #6b7280;
 
-    --primary-color: #8BC34A;
-    --primary-dark: #689F38;
-    --premium-color: #FFD700;
-    --premium-dark: #FFA000;
-    --danger-color: #FF5722;
-    --surface-color: #f8f9fa;
-    --border-color: #e9ecef;
-    --text-secondary: #6c757d;
-    --shadow: rgba(0, 0, 0, 0.1);
-    --shadow-hover: rgba(0, 0, 0, 0.15);
-}
+  /* Адаптируемые акценты под аватарку */
+  --primary-color: #4fd048;   /* основной акцент */
+  --primary-dark: #00ac2e;    /* hover/active */
+  --premium-color: #ffd54d;   /* премиум */
+  --premium-dark: #e6b800;
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
-    background-color: var(--tg-bg-color);
-    color: var(--tg-text-color);
-    line-height: 1.4;
-    padding: 0;
-    margin: 0;
-    overflow-x: hidden;
+  --shadow: rgba(15, 23, 42, 0.08);
+  --shadow-hover: rgba(15, 23, 42, 0.14);
 }
 
 .dark-theme {
-    --tg-bg-color: #17212b;
-    --tg-text-color: #ffffff;
-    --surface-color: #242f3d;
-    --border-color: #384457;
-    --text-secondary: #8391a3;
-    --shadow: rgba(0, 0, 0, 0.3);
+  --tg-bg-color: #17212b;
+  --tg-text-color: #ffffff;
+  --surface-color: #1f2b38;
+  --border-color: #2a3a4d;
+  --text-secondary: #93a2b2;
+
+  --shadow: rgba(0, 0, 0, 0.25);
+  --shadow-hover: rgba(0, 0, 0, 0.35);
+}
+
+/* ---- Layout ---- */
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--tg-bg-color);
+  color: var(--tg-text-color);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif;
+  line-height: 1.35;
 }
 
 .container {
-    max-width: 100%;
-    padding: 20px 16px;
-    min-height: 100vh;
-    position: relative;
+  position: relative;
+  max-width: 100%;
+  min-height: 100vh;
+  padding: calc(env(safe-area-inset-top) + 12px) 16px 20px;
 }
 
-.avatar {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 2px 8px var(--shadow);
-    z-index: 10;
+/* Логотип в шапке: теперь слева от текста */
+.app-logo {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
+  object-fit: cover;
+  user-select: none;
+  -webkit-user-drag: none;
+  flex: 0 0 auto;
 }
 
-.avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+/* Header */
+.app-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  margin: 8px 0 18px;
 }
 
-header {
-    text-align: center;
-    margin: 60px 0 40px;
+.app-header-text {
+  display: flex;
+  flex-direction: column;
 }
 
-header h1 {
-    font-size: 28px;
-    font-weight: 700;
-    color: var(--primary-color);
-    margin-bottom: 8px;
-    letter-spacing: -0.5px;
+.app-title {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  margin: 0 0 4px;
 }
 
-header p {
-    font-size: 16px;
-    color: var(--text-secondary);
-    font-weight: 400;
+.app-subtitle {
+  margin: 0;
+  font-size: 14px;
+  color: var(--text-secondary);
 }
 
-main {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-bottom: 20px;
+/* Actions */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
+.action { display: flex; flex-direction: column; gap: 6px; }
+
+/* Кнопка одной строкой с иконкой */
 .btn {
-    background: var(--surface-color);
-    border: 1px solid var(--border-color);
-    border-radius: 16px;
-    padding: 0;
-    cursor: pointer;
-    transition: all 0.2
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  background: var(--surface-color);
+  color: var(--tg-text-color);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;         /* одна строка */
+  text-overflow: ellipsis;     /* обрезка при переполнении */
+  overflow: hidden;
+  box-shadow: 0 2px 8px var(--shadow);
+  transition: transform .06s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+}
+
+.btn:hover { box-shadow: 0 6px 16px var(--shadow-hover); }
+.btn:active { transform: translateY(1px); }
+
+.btn-icon {
+  font-size: 20px;
+  line-height: 1;
+  flex: 0 0 auto;
+}
+
+.btn-text {
+  line-height: 1.1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+  color: #ffffff;
+  border: 1px solid transparent;
+}
+
+.btn-premium {
+  background: linear-gradient(180deg, var(--premium-color), var(--premium-dark));
+  color: #1f2937;
+  border: 1px solid transparent;
+}
+
+/* Подпись под кнопкой (не кликабельна) */
+.hint {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 0 2px 0 40px; /* визуально выравниваем с текстом */
+}
+
+/* Маленькие устройства: чуть выше кегль и расстояния */
+@media (max-width: 360px) {
+  .btn { min-height: 54px; padding: 12px 14px; font-size: 15px; }
+  .btn-icon { font-size: 19px; }
+}
+
+/* Модальное окно "В разработке" */
+.dev-modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(2,6,23,0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .18s ease;
+  z-index: 1200;
+}
+.dev-modal.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+.dev-modal-content {
+  background: var(--tg-bg-color);
+  color: var(--tg-text-color);
+  border-radius: 12px;
+  padding: 18px 16px;
+  width: min(92%, 360px);
+  box-shadow: 0 8px 40px rgba(2,6,23,0.3);
+  text-align: center;
+}
+.dev-modal-title {
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 18px;
+}
+.dev-modal-body {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 12px;
+}
+.dev-close {
+  background: linear-gradient(180deg, var(--primary-color), var(--primary-dark));
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.dev-close:active { transform: translateY(1px); }

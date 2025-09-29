@@ -1,120 +1,140 @@
 <!doctype html>
 <html lang="ru">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, viewport-fit=cover"
-    />
-    <title>AI Помощник</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-    <div class="container">
-        <div class="avatar">
-            <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMjAiIGZpbGw9IiM4QkMzNEEiLz4KPHN2ZyB4PSI4IiB5PSI4IiB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0xMiAyQzYuNDggMiAyIDYuNDggMiAxMnM0LjQ4IDEwIDEwIDEwIDEwLTQuNDggMTAtMTBTMTcuNTIgMiAxMiAyem0wIDNjMS42NiAwIDMgMS4zNCAzIDNzLTEuMzQgMy0zIDMtMy0xLjM0LTMtMyAxLjM0LTMgMy0zem0wIDEyLjJjLTIuNSAwLTQuNzEtMS4yOC02LTMuMjIuMDMtMS45OSA0LTMuMDggNi0zLjA4czUuOTcgMS4wOSA2IDMuMDhjLTEuMjkgMS45NC0zLjUgMy4yMi02IDMuMjJ6IiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4KPC9zdmc+" alt="Bot Avatar" />
-        </div>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Mini App</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+</head>
+<body>
+  <div class="container">
+    <header class="app-header">
+      <img src="logo.jpg" alt="Bot logo" class="app-logo" />
+      <div class="app-header-text">
+        <h1 class="app-title">Pamela English Tutor</h1>
+        <p class="app-subtitle">Главные настройки и меню бота</p>
+      </div>
+    </header>
 
-        <header>
-            <h1>AI Помощник</h1>
-            <p>Персональный голосовой ассистент</p>
-        </header>
+    <main class="actions">
+      <section class="action">
+        <button class="btn btn-primary" type="button" id="btn-stats" aria-label="Моя статистика">
+          <span class="btn-icon">📊</span>
+          <span class="btn-text">Моя статистика обучения</span>
+        </button>
+      </section>
 
-        <main>
-            <button id="stats-btn" class="btn primary">
-                <div class="btn-content">
-                    <div class="btn-icon">📊</div>
-                    <div class="btn-text">
-                        <span class="btn-title">Моя статистика</span>
-                        <span class="btn-subtitle">Просмотр использования</span>
-                    </div>
-                </div>
-            </button>
+      <section class="action">
+        <button class="btn btn-neutral" type="button" id="btn-speed" aria-label="Скорость речи">
+          <span class="btn-icon">⏱️</span>
+          <span class="btn-text">Скорость речи бота</span>
+        </button>
+      </section>
 
-            <button id="speed-btn" class="btn">
-                <div class="btn-content">
-                    <div class="btn-icon">⚡</div>
-                    <div class="btn-text">
-                        <span class="btn-title">Скорость речи</span>
-                        <span class="btn-subtitle">Настройка темпа</span>
-                    </div>
-                </div>
-            </button>
+      <section class="action">
+        <button class="btn btn-neutral" type="button" id="btn-voice" aria-label="Выбор голоса">
+          <span class="btn-icon">🎙️</span>
+          <span class="btn-text">Изменить озвучку голоса</span>
+        </button>
+      </section>
 
-            <button id="voice-btn" class="btn">
-                <div class="btn-content">
-                    <div class="btn-icon">🎙️</div>
-                    <div class="btn-text">
-                        <span class="btn-title">Выбор голоса</span>
-                        <span class="btn-subtitle">Изменить озвучку</span>
-                    </div>
-                </div>
-            </button>
+      <section class="action">
+        <button class="btn btn-premium" type="button" id="btn-premium" aria-label="Премиум">
+          <span class="btn-icon">⭐</span>
+          <span class="btn-text">Купить премиум подписку</span>
+        </button>
+        <div class="hint">Больше возможностей подпиской</div>
+      </section>
 
-            <button id="premium-btn" class="btn premium">
-                <div class="btn-content">
-                    <div class="btn-icon">⭐</div>
-                    <div class="btn-text">
-                        <span class="btn-title">Премиум</span>
-                        <span class="btn-subtitle">Больше возможностей</span>
-                    </div>
-                    <div class="premium-badge">PRO</div>
-                </div>
-            </button>
+      <section class="action">
+        <button class="btn btn-neutral" type="button" id="btn-support" aria-label="Поддержка">
+          <span class="btn-icon">💬</span>
+          <span class="btn-text">Поддержка и рекомендации</span>
+        </button>
+      </section>
+    </main>
+  </div>
 
-            <button id="help-btn" class="btn">
-                <div class="btn-content">
-                    <div class="btn-icon">💬</div>
-                    <div class="btn-text">
-                        <span class="btn-title">Поддержка</span>
-                        <span class="btn-subtitle">Обратная связь</span>
-                    </div>
-                </div>
-            </button>
-        </main>
-    </div>
+  <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg && typeof tg.ready === 'function') tg.ready();
 
-    <script>
-      const tg = window.Telegram.WebApp;
-      tg.ready();
+    // HTTP эндпоинт вашего бота
+    const ENDPOINT = "https://pamelaenglishbot.ru/webapp";
 
-      // HTTP эндпоинт вашего бота (как в оригинале)
-      const ENDPOINT = "https://pamelaenglishbot.ru/webapp";
-
-      // Универсальная функция отправки команд (основана на оригинальной sendPremium)
-      async function sendCommand(command) {
-        try {
-          const queryId = tg?.initDataUnsafe?.query_id;
-          if (!queryId) {
-            console.log("query_id недоступен (Mini App должен быть запущен из меню/вложений).");
-            return;
-          }
-
-          const resp = await fetch(ENDPOINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ query_id: queryId, command: command }),
-          });
-
-          const data = await resp.json();
-          if (!data.ok) {
-            console.error("Server error:", data);
-            return;
-          }
-
-          tg.close();
-        } catch (e) {
-          console.error(e);
+    // Универсальная функция отправки команд
+    async function sendCommand(command) {
+      try {
+        const queryId = tg?.initDataUnsafe?.query_id;
+        if (!queryId) {
+          console.log("query_id недоступен (Mini App должен быть запущен из меню/вложений).");
+          return;
         }
-      }
 
-      // Добавляем обработчики для всех кнопок
-      document.getElementById("stats-btn").addEventListener("click", () => sendCommand("stats"));
-      document.getElementById("speed-btn").addEventListener("click", () => sendCommand("speed"));
-      document.getElementById("voice-btn").addEventListener("click", () => sendCommand("voice"));
-      document.getElementById("premium-btn").addEventListener("click", () => sendCommand("premium"));
-      document.getElementById("help-btn").addEventListener("click", () => sendCommand("help"));
-    </script>
-  </body>
+        const resp = await fetch(ENDPOINT, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ query_id: queryId, command: command }),
+        });
+
+        const data = await resp.json();
+        if (!data.ok) {
+          console.error("Server error:", data);
+          return;
+        }
+
+        tg.close();
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    // Модальное окно "В разработке"
+    function showDevModal() {
+      const modal = document.getElementById('dev-modal');
+      if (!modal) return;
+      modal.classList.add('visible');
+      // Для удобства — автоскрытие через 2 секунды
+      clearTimeout(modal._hideTimeout);
+      modal._hideTimeout = setTimeout(() => modal.classList.remove('visible'), 2000);
+    }
+
+    // Обработчики: все кнопки, кроме премиум, показывают модал
+    const map = {
+      stats: 'btn-stats',
+      speed: 'btn-speed',
+      voice: 'btn-voice',
+      support: 'btn-support'
+    };
+
+    Object.values(map).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.addEventListener('click', showDevModal);
+    });
+
+    // Премиум — реальная отправка команды
+    const premiumBtn = document.getElementById('btn-premium');
+    if (premiumBtn) premiumBtn.addEventListener('click', () => sendCommand('premium'));
+
+    // Закрытие модального по оверлею/кнопке
+    const devModal = document.getElementById('dev-modal');
+    if (devModal) {
+      devModal.addEventListener('click', (e) => {
+        if (e.target.id === 'dev-modal' || e.target.classList.contains('dev-close')) {
+          devModal.classList.remove('visible');
+        }
+      });
+    }
+  </script>
+
+  <!-- Модальное окно для функций в разработке -->
+  <div id="dev-modal" class="dev-modal" role="dialog" aria-hidden="true">
+    <div class="dev-modal-content" role="document">
+      <div class="dev-modal-title">В разработке</div>
+      <div class="dev-modal-body">Эта функция пока недоступна. Она находится в разработке.</div>
+      <button type="button" class="dev-close" aria-label="Закрыть">ОК</button>
+    </div>
+  </div>
+</body>
 </html>
