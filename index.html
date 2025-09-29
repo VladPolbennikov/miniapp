@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!doctype html>
 <html lang="ru">
   <head>
@@ -46,15 +45,17 @@
       const tg = window.Telegram.WebApp;
       tg.ready();
 
-      // УКАЖИТЕ публичный URL вашего бота (где запущен aiohttp)
-      // Например: https://bot.example.com/webapp
-      const ENDPOINT = "https://YOUR_BOT_HOST/webapp";
+      // HTTP эндпоинт вашего бота
+      const ENDPOINT = "http://194.87.208.6:8080/webapp";
+      // Важно: если Mini App загружен по HTTPS (например, GitHub Pages),
+      // браузер может блокировать запросы к HTTP (mixed content).
+      // Решение — проксировать на HTTPS или хостить Mini App по HTTP вместе с бэкендом.
 
       async function sendPremium() {
         try {
           const queryId = tg?.initDataUnsafe?.query_id;
           if (!queryId) {
-            alert("query_id недоступен (Mini App должен быть запущен из меню/вложений).");
+            // alert("query_id недоступен (Mini App должен быть запущен из меню/вложений).");
             return;
           }
 
@@ -67,15 +68,14 @@
           const data = await resp.json();
           if (!data.ok) {
             console.error("Server error:", data);
-            alert("Ошибка сервера: " + (data.error || "unknown"));
+            // alert("Ошибка сервера: " + (data.error || "unknown"));
             return;
           }
 
-          // Закрываем Mini App после успешной публикации
           tg.close();
         } catch (e) {
           console.error(e);
-          alert("Ошибка: " + e.message);
+          // alert("Ошибка: " + e.message);
         }
       }
 
